@@ -11,7 +11,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Olá, Jane Smith</v-list-item-title>
+            <v-list-item-title>{{ usuarioLogado.nome }}</v-list-item-title>
             <v-btn block small to="/login">
               <v-icon left>
               mdi-exit-to-app
@@ -78,6 +78,7 @@
         <v-list-item
           v-for="(item, index) in items"
           :key="index"
+          v-if="item.admin==usuarioLogado.id || usuarioLogado.type=='Saas' "
         >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
@@ -90,31 +91,22 @@
 
 
 <script>
+import links from '../js/menus.js'
+import instituicoes from '../js/instituicoes.js'
+import usuarioLogado from '../js/usuario-logado.js'
 
 export default {
     name: 'Header',
     ShowHeader: true,
     data: () => ({
-      items: [
-        { title: 'Comunidade Bethânia' },
-        { title: 'Associação Guadalupe' },
-        { title: 'Ironi Spuldaro' },
-        { title: 'Missão Católica SOS' },
-      ],
+      items: instituicoes,
       selectedItem: 1,
-      links: [
-        { text: 'Dashboard', icon: 'mdi-television-guide', route: '/dashboard', id: 'MenuDashboard'},
-        { text: 'Doações', icon: 'mdi-hand-heart', route: '/doacoes', id: 'MenuDoacoes'},
-        { text: 'Doadores', icon: 'mdi-account-multiple', route: '/doadores', id: 'MenuDoadores'},
-        { text: 'Metas', icon: 'mdi-trending-up', route: '/metas', id: 'MenuMetas' },
-        { text: 'Configurações', icon: 'mdi-cog', route: '/configuracoes', id: 'MenuConfiguracoes'},
-        { text: 'Estilo', icon: 'mdi-application-cog', route: '/estilo', id: 'MenuEstilo'},        
-        { text: 'Módulos', icon: 'mdi-puzzle', route: '/modulos', id: 'MenuModulos'},
-      ],
+      links: links,
       drawer: false,
       Privileges: [
       'MenuDashboard', 'MenuDoacoes', 'MenuDoadores',
     ],
+    usuarioLogado,
     }),
 }
 </script>
