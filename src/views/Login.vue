@@ -11,7 +11,7 @@
         ></v-img>
       </v-row>
         <v-form style="margin-right: 8%;margin-left: 8%;margin-bottom: 3%">
-              <v-text-field v-model="login"
+              <v-text-field v-model="email"
               :rules="[rules.required, rules.min]"
               prepend-icon="mdi-account" name="Username" label="Username ou E-mail"></v-text-field>
               <v-text-field
@@ -24,7 +24,7 @@
               prepend-icon="mdi-key"
               @click:append="show1 = !show1"
             ></v-text-field>
-              <v-card-actions style="margin-top: 25px;">
+              <v-card-actions style="margin-top: 25px;" @click="login()">
                 <v-btn rounded large block dark color="green">Login</v-btn>
               </v-card-actions>
               <br>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import {auth} from '../js/sandbox.superapp.js'
 
 export default {
   name: 'Login',
@@ -46,10 +47,12 @@ export default {
   },
     data () {
       return {
+        auth,
         show1: false,
         show2: true,
         show3: false,
         show4: false,
+        email: '',
         password: '',
         rules: {
           required: value => !!value || 'Requerido.',
@@ -58,6 +61,14 @@ export default {
         },
       }
     },
+    methods: {
+
+       async login() {
+        let res = await this.auth.login( this.email, this.password )
+        console.log(res)
+      }
+    }
+    
   }
 </script>
 

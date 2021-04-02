@@ -29,32 +29,32 @@ const auth = {
             }
         }
     }, 
-    logged: async () => this.get_JWT() !== null,
+    logged: async () => auth.jwt() !== null,
     logout: async () => localStorage.removeItem('ACCESS_TOKEN'),
     set: async token =>  localStorage.setItem('ACCESS_TOKEN', token),
-    jwt: async () => localStorage.getItem('ACCESS_TOKEN'), 
-    get: async () => cache?.corruente_user?.[0] || {},
+    jwt: () => localStorage.getItem('ACCESS_TOKEN'), 
+    get: async () => cache.corruente_user[0] || {},
     put: async () => ({ next: true, message: null, playload: null })
 }
 
 const crud = {
-    get: name => cache.get()?.[name] || [],
+    get: name => cache.get()[name] || [],
     post: (name, data) => {
         let storage = cache.get()
         data = { id: Date.now() , ...data }
-        storage[name] = [...(storage?.[name] || []), data]
+        storage[name] = [...(storage[name] || []), data]
         cache.set(storage)
     },
-    me: (name, id) => (cache.get()?.[name] || []).find(data => data?.id == id),
+    me: (name, id) => (cache.get()[name] || []).find(data => data.id == id),
     del: (name, id) => {
         let storage = cache.get()
-        storage[name] = (storage?.[name] || []).filter(post => post?.id != id)
+        storage[name] = (storage[name] || []).filter(post => post.id != id)
         cache.set(storage)
     },
     put: (name, data) => {
         let storage = cache.get()
-        storage[name] = (storage?.[name] || []).map(post => {
-            if (post?.id == data?.id)
+        storage[name] = (storage[name] || []).map(post => {
+            if (post.id == dataid)
                 post = { ...post, ...data }
             return post
         })
