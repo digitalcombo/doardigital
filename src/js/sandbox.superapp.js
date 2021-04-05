@@ -13,6 +13,7 @@ const auth = {
                 first_name: 'Jose',
                 last_name: 'Almeida',
                 permissao: 'user,dash,board',
+                gravatar: '//www.gravatar.com/avatar/465abef9f404fd8b9dacef4c1d549ac2'
             }
             auth.set(`000001.${btoa( JSON.stringify(playload) )}`)
             cache.set({

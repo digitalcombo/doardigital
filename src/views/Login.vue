@@ -32,6 +32,15 @@
               <a href="/recuperar-senha">Esqueceu a senha?</a>
               </div>
         </v-form>
+          <div v-if="senhaCerta">
+            <v-alert
+              dense
+              border="left"
+              type="warning"
+            >
+              Login ou Senha Incorreto
+            </v-alert>
+          </div>
         <v-divider>
         </v-divider>
     </v-card>
@@ -40,6 +49,12 @@
 
 <script>
 import {auth} from '../js/sandbox.superapp.js'
+;
+( async () => {
+  let is_logged = await auth.logged()
+  if(is_logged) 
+    window.location.href = '/dashboard'
+})
 
 export default {
   name: 'Login',
@@ -59,14 +74,19 @@ export default {
           min: v => v.length >= 8 || 'Min 8 characters',
           emailMatch: () => (`E-mail ou senha incorretos`),
         },
+        senhaCerta: false,
       }
     },
     methods: {
-
        async login() {
         let res = await this.auth.login( this.email, this.password )
-        console.log(res)
+        console.log(res.next)
+        this.senhaCerta = !res.next
+        if ( res.next )
+          this.$router.push('/dashboard');
       }
+
+ 
     }
     
   }
